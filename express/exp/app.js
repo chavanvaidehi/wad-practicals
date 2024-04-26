@@ -1,22 +1,25 @@
 const express = require("express");
 const app = express();
+const port = 3000; // Define the port
 
-app.get("/",(req,res) => {
-    res.sendFile(__dirname+"/public/home.html")
-})
+const handleRequest = async (req, res) => {
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  res.send('Hello, World!');
+};
 
-app.get("/about",(req,res) => {
-    res.sendFile(__dirname+"/public/about.html")
-})
-
-app.get("/login",(req,res) => {
-    res.sendFile(__dirname+"/public/login.html")
-})
-
-app.get("/contact",(req,res) => {
-    res.sendFile(__dirname+"/public/contact.html")
-})
-
-app.listen(4000,()=>{
-    console.log("Listening on port 4000")
+// Route handling using async function
+app.get("/about", (req, res) => {
+  res.sendFile(__dirname + "/public/about.html");
 });
+
+app.get('/', async (req, res) => {
+  await handleRequest(req, res);
+});
+
+// Start the server
+const startServer = async () => {
+  await app.listen(port);
+  console.log(`Web server started. Listening on http://localhost:${port}`);
+};
+
+startServer();
